@@ -1,0 +1,19 @@
+{
+  "language": "Мова",
+  "cancel": "Закрити",
+  "currentLanguage": "$t(uk)",
+  "changeLanguage": "Мова додатку",
+  "en": "Англійська",
+  "uk": "Українська",
+  "theme": "Тема",
+  "darkTheme": "Темна",
+  "lightTheme": "Світла",
+  "systemTheme": "Системна",
+  "changeTheme": "Змінити тему",
+  "todo": "Справа",
+  "todos": "Завдання",
+  "epmtyTodoList": "У вас немає завдань",
+  "createATodo": "Додати завдання",
+  "todoPlaceholder": "$t(todo)",
+  "settings": "Налаштування"
+}

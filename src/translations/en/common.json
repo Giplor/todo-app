@@ -1,0 +1,19 @@
+{
+  "language": "Language",
+  "cancel": "Cancel",
+  "currentLanguage": "$t(en)",
+  "changeLanguage": "App language",
+  "en": "English",
+  "uk": "Ukrainian",
+  "theme": "Theme",
+  "darkTheme": "Dark",
+  "lightTheme": "Light",
+  "systemTheme": "System",
+  "changeTheme": "Change theme",
+  "todo": "Todo",
+  "todos": "Todos",
+  "epmtyTodoList": "You have no tasks",
+  "createATodo": "Create a todo",
+  "todoPlaceholder": "$t(todo)",
+  "settings": "Settings"
+}
