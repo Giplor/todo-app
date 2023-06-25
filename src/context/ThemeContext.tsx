@@ -1,56 +1,47 @@
-// import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
-import { createContext, useEffect, useMemo, useState } from 'react';
-// import { useColorScheme } from 'react-native';
-// import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
-import { setLocalTheme } from 'services/theme';
-import { CombinedDarkTheme, CombinedDefaultTheme, Theme, ThemeType } from 'theme';
-import { ReactChildren } from 'types';
+import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
+import { PropsWithChildren, createContext, useMemo, useState } from 'react';
+import { useColorScheme } from 'react-native';
+import { getLocalTheme } from 'services/theme';
+import { type ThemeType, type Theme, combinedDarkTheme, combinedLightTheme } from 'theme';
 
 type ThemeContextType = {
   theme: Theme;
   themeType: ThemeType;
   setThemeType: React.Dispatch<React.SetStateAction<ThemeType>>;
+  updateTheme: (sourceColor: string) => void;
+  resetTheme: () => void;
 };
 
-interface ThemeContextProviderProps extends ReactChildren {
-  initialTheme: ThemeType | null;
-}
+export const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
-export const ThemeContext = createContext<ThemeContextType>({
-  theme: CombinedDefaultTheme,
-  themeType: 'Light',
-  setThemeType: () => {},
-});
+export const ThemeProvider = ({ children }: PropsWithChildren) => {
+  const colorScheme = useColorScheme() as ThemeType;
 
-export const ThemeContextProvider = ({ children, initialTheme }: ThemeContextProviderProps) => {
-  const [themeType, setThemeType] = useState<ThemeType>(initialTheme ?? 'Light');
+  const initialThemeType = getLocalTheme() as ThemeType;
 
-  // const colorScheme = useColorScheme();
+  const [themeType, setThemeType] = useState(
+    initialThemeType === 'system' ? colorScheme : initialThemeType,
+  );
 
-  // const { theme: materialTheme } = useMaterial3Theme();
+  const { theme: material3Theme, updateTheme, resetTheme } = useMaterial3Theme();
 
-  useEffect(() => {
-    const localSaveTheme = async () => {
-      try {
-        await setLocalTheme(themeType);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const darkTheme = combinedDarkTheme(material3Theme.dark);
+  const lightTheme = combinedLightTheme(material3Theme.light);
 
-    localSaveTheme();
-  }, [themeType]);
-
-  // const theme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
-  const theme = themeType === 'Dark' ? CombinedDarkTheme : CombinedDefaultTheme;
+  const theme =
+    (themeType === 'system' && colorScheme === 'dark') || themeType === 'dark'
+      ? darkTheme
+      : lightTheme;
 
   const preferences = useMemo(
     () => ({
       theme,
       themeType,
+      updateTheme,
+      resetTheme,
       setThemeType,
     }),
-    [theme, themeType],
+    [theme, themeType, updateTheme, resetTheme],
   );
 
   return <ThemeContext.Provider value={preferences}>{children}</ThemeContext.Provider>;

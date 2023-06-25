@@ -1,32 +1,50 @@
 import {
   DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
+  DefaultTheme as NavigationLightTheme,
 } from '@react-navigation/native';
+import { Platform } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, adaptNavigationTheme } from 'react-native-paper';
+import { MD3Colors } from 'react-native-paper/lib/typescript/src/types';
 
-const { DarkTheme, LightTheme } = adaptNavigationTheme({
-  reactNavigationDark: NavigationDarkTheme,
-  reactNavigationLight: NavigationDefaultTheme,
-});
-
-export const CombinedDarkTheme = {
-  ...MD3DarkTheme,
-  ...DarkTheme,
-  colors: {
-    ...MD3DarkTheme.colors,
-    ...DarkTheme.colors,
-  },
+type MaterialThemeColors = {
+  darkThemeColors?: MD3Colors;
+  lightThemeColors?: MD3Colors;
 };
 
-export const CombinedDefaultTheme = {
-  ...MD3LightTheme,
-  ...LightTheme,
-  colors: {
-    ...MD3LightTheme.colors,
-    ...LightTheme.colors,
-  },
+const getNavigationThemes = ({ darkThemeColors, lightThemeColors }: MaterialThemeColors) =>
+  adaptNavigationTheme({
+    reactNavigationDark: NavigationDarkTheme,
+    reactNavigationLight: NavigationLightTheme,
+    materialDark: darkThemeColors && { ...MD3DarkTheme, colors: darkThemeColors },
+    materialLight: lightThemeColors && { ...MD3LightTheme, colors: lightThemeColors },
+  });
+
+export const combinedDarkTheme = (darkThemeColors: MD3Colors) => {
+  const { DarkTheme } = getNavigationThemes({ darkThemeColors });
+  return {
+    ...MD3DarkTheme,
+    ...DarkTheme,
+    colors: {
+      ...darkThemeColors,
+      ...DarkTheme.colors,
+    },
+  };
 };
 
-export type Theme = typeof CombinedDefaultTheme;
+export const combinedLightTheme = (lightThemeColors: MD3Colors) => {
+  const { LightTheme } = getNavigationThemes({ lightThemeColors });
+  return {
+    ...MD3DarkTheme,
+    ...LightTheme,
+    colors: {
+      ...lightThemeColors,
+      ...LightTheme.colors,
+    },
+  };
+};
 
-export type ThemeType = 'Light' | 'Dark' | 'System';
+export const isSupportedMaterial = Platform.OS === 'android' && Platform.Version >= 31;
+
+export type Theme = ReturnType<typeof combinedDarkTheme>;
+
+export type ThemeType = 'light' | 'dark' | 'system';

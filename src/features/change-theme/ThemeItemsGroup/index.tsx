@@ -1,6 +1,7 @@
 import { useAppTheme } from 'hooks/useAppTheme';
 import { useTranslation } from 'react-i18next';
 import { RadioButton } from 'react-native-paper';
+import { setLocalTheme } from 'services/theme';
 import { ThemeType } from 'theme';
 
 import { ThemeItem } from '../ThemeItem';
@@ -13,14 +14,15 @@ export const ThemeItemsGroup = () => {
   const onChangeTheme = (theme: string) => {
     if (theme !== themeType) {
       setThemeType(theme as ThemeType);
+      setLocalTheme(theme as ThemeType);
     }
   };
 
   return (
     <RadioButton.Group onValueChange={onChangeTheme} value={themeType}>
-      <ThemeItem value="Light" label={t('lightTheme')} />
-      <ThemeItem value="Dark" label={t('darkTheme')} />
-      <ThemeItem value="System" label={t('systemTheme')} />
+      <ThemeItem value="light" label={t('lightTheme')} />
+      <ThemeItem value="dark" label={t('darkTheme')} />
+      <ThemeItem value="system" label={t('systemTheme')} />
     </RadioButton.Group>
   );
 };

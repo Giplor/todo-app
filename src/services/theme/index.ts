@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storage } from 'services/mkkv';
 import { ThemeType } from 'theme';
 
-export const fetchLocalTheme = () => AsyncStorage.getItem('theme');
+export const getLocalTheme = () => storage.getString('theme');
 
-export const setLocalTheme = (theme: ThemeType) => AsyncStorage.setItem('theme', theme);
+export const setLocalTheme = (theme: ThemeType) => storage.set('theme', theme);

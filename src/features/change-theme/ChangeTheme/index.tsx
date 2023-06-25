@@ -17,7 +17,7 @@ export const ChangeTheme = () => {
       <SettingItem
         onPress={showModal}
         mainText={t('theme')}
-        minorText={themeType === 'Dark' ? t('darkTheme') : t('lightTheme')}
+        minorText={themeType === 'dark' ? t('darkTheme') : t('lightTheme')}
       />
       <ChangeThemeModal visible={visible} hideModal={hideModal} />
     </>
