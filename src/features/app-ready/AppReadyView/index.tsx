@@ -1,35 +1,16 @@
-import { ThemeContextProvider } from 'context/ThemeContext';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ThemeProvider } from 'context/ThemeContext';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { fetchLocalTheme } from 'services/theme';
-import { ThemeType } from 'theme';
-import { ReactChildren } from 'types';
 
-interface AppReadyViewProps extends ReactChildren {
+interface AppReadyViewProps extends PropsWithChildren {
   hideSplashScreen: () => Promise<boolean>;
 }
 
 export const AppReadyView = ({ children, hideSplashScreen }: AppReadyViewProps) => {
   const [appIsReady, setAppIsReady] = useState(false);
 
-  const initialTheme = useRef<ThemeType>('Light');
-
   useEffect(() => {
-    const prepare = async () => {
-      try {
-        const localTheme = (await fetchLocalTheme()) as ThemeType;
-
-        if (localTheme) {
-          initialTheme.current = localTheme;
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setAppIsReady(true);
-      }
-    };
-
-    prepare();
+    setAppIsReady(true);
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
@@ -44,7 +25,7 @@ export const AppReadyView = ({ children, hideSplashScreen }: AppReadyViewProps) 
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <ThemeContextProvider initialTheme={initialTheme.current}>{children}</ThemeContextProvider>
+      <ThemeProvider>{children}</ThemeProvider>
     </View>
   );
 };

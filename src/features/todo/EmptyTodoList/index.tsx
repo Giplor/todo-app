@@ -16,8 +16,6 @@ export const EmptyTodoList = () => {
   );
 };
 
-// , { backgroundColor: theme.colors.background }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

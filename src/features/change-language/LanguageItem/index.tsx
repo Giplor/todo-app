@@ -22,12 +22,8 @@ export const LanguageItem = ({ language }: LanguageItemProps) => {
 
   const onChangeLanguage = async () => {
     if (language !== currentLanguage) {
-      try {
-        await setLocalLanguage(language);
-        changeLanguage(language);
-      } catch (error) {
-        console.log(error);
-      }
+      setLocalLanguage(language);
+      changeLanguage(language);
     }
   };
 

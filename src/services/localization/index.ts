@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { storage } from 'services/mkkv';
 import enCommon from 'translations/en/common.json';
 import ukCommon from 'translations/uk/common.json';
 
@@ -10,12 +10,12 @@ export const resources = {
   uk: { common: ukCommon },
 } as const;
 
-export const fetchLocalLanguage = () => AsyncStorage.getItem('language');
+export const getLocalLanguage = () => storage.getString('language');
 
-export const setLocalLanguage = (language: Language) => AsyncStorage.setItem('language', language);
+export const setLocalLanguage = (language: Language) => storage.set('language', language);
 
-export const initializeLocalization = async () => {
-  const language = (await fetchLocalLanguage()) as Language;
+export const initializeLocalization = () => {
+  const language = getLocalLanguage() as Language;
 
   i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
