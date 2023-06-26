@@ -17,10 +17,12 @@ export const ThemeContext = createContext<ThemeContextType>({} as ThemeContextTy
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
   const colorScheme = useColorScheme() as ThemeType;
 
-  const initialThemeType = getLocalTheme() as ThemeType;
+  const initialThemeType = getLocalTheme();
 
   const [themeType, setThemeType] = useState(
-    initialThemeType === 'system' ? colorScheme : initialThemeType,
+    initialThemeType === 'system' || typeof initialThemeType === 'undefined'
+      ? colorScheme
+      : initialThemeType,
   );
 
   const { theme: material3Theme, updateTheme, resetTheme } = useMaterial3Theme();
