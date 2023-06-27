@@ -1,7 +1,7 @@
 import { useAppTheme } from 'hooks/useAppTheme';
 import { useTranslation } from 'react-i18next';
 import { RadioButton } from 'react-native-paper';
-import { setLocalTheme } from 'services/theme';
+import { setLocalStorageTheme } from 'services/theme';
 import { ThemeType } from 'theme';
 
 import { ThemeItem } from '../ThemeItem';
@@ -11,10 +11,12 @@ export const ThemeItemsGroup = () => {
 
   const { t } = useTranslation();
 
-  const onChangeTheme = (theme: string) => {
+  const onChangeTheme = (themeValue: string) => {
+    const theme = themeValue as ThemeType;
+
     if (theme !== themeType) {
-      setThemeType(theme as ThemeType);
-      setLocalTheme(theme as ThemeType);
+      setThemeType(theme);
+      setLocalStorageTheme(theme);
     }
   };
 

@@ -6,7 +6,7 @@ import {
   Language,
   changeLanguage,
   getCurrentLanguage,
-  setLocalLanguage,
+  setLocalStorageLanguage,
 } from 'services/localization';
 
 export interface LanguageItemProps {
@@ -20,9 +20,9 @@ export const LanguageItem = ({ language }: LanguageItemProps) => {
 
   const isSetted = currentLanguage === language;
 
-  const onChangeLanguage = async () => {
+  const onChangeLanguage = () => {
     if (language !== currentLanguage) {
-      setLocalLanguage(language);
+      setLocalStorageLanguage(language);
       changeLanguage(language);
     }
   };

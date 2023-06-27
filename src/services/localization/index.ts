@@ -5,17 +5,14 @@ import enCommon from 'translations/en/common.json';
 import ukCommon from 'translations/uk/common.json';
 
 export const defaultNS = 'common';
+
 export const resources = {
   en: { common: enCommon },
   uk: { common: ukCommon },
 } as const;
 
-export const getLocalLanguage = () => storage.getString('language');
-
-export const setLocalLanguage = (language: Language) => storage.set('language', language);
-
 export const initializeLocalization = () => {
-  const language = getLocalLanguage() as Language;
+  const language = getLocalStorageLanguage();
 
   i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
@@ -33,9 +30,11 @@ export const initializeLocalization = () => {
   });
 };
 
-export const changeLanguage = (newLanguage: Language) => i18n.changeLanguage(newLanguage);
+export const getLocalStorageLanguage = () => storage.getString('language') as Language | undefined;
+export const setLocalStorageLanguage = (language: Language) => storage.set('language', language);
 
 export const getCurrentLanguage = () => i18n.language;
+export const changeLanguage = (newLanguage: Language) => i18n.changeLanguage(newLanguage);
 
 export const LANGUAGES: Language[] = ['en', 'uk'];
 

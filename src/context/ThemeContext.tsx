@@ -1,7 +1,7 @@
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import { PropsWithChildren, createContext, useMemo, useState } from 'react';
 import { useColorScheme } from 'react-native';
-import { getLocalTheme } from 'services/theme';
+import { getLocalStorageTheme } from 'services/theme';
 import { type ThemeType, type Theme, combinedDarkTheme, combinedLightTheme } from 'theme';
 
 type ThemeContextType = {
@@ -17,7 +17,7 @@ export const ThemeContext = createContext<ThemeContextType>({} as ThemeContextTy
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
   const colorScheme = useColorScheme() as ThemeType;
 
-  const initialThemeType = getLocalTheme();
+  const initialThemeType = getLocalStorageTheme();
 
   const [themeType, setThemeType] = useState(
     initialThemeType === 'system' || typeof initialThemeType === 'undefined'
