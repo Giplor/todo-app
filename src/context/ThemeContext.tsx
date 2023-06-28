@@ -8,8 +8,6 @@ type ThemeContextType = {
   theme: Theme;
   themeType: ThemeType;
   setThemeType: React.Dispatch<React.SetStateAction<ThemeType>>;
-  updateTheme: (sourceColor: string) => void;
-  resetTheme: () => void;
 };
 
 export const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
@@ -25,7 +23,7 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
       : initialThemeType,
   );
 
-  const { theme: material3Theme, updateTheme, resetTheme } = useMaterial3Theme();
+  const { theme: material3Theme } = useMaterial3Theme();
 
   const darkTheme = combinedDarkTheme(material3Theme.dark);
   const lightTheme = combinedLightTheme(material3Theme.light);
@@ -39,11 +37,9 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
     () => ({
       theme,
       themeType,
-      updateTheme,
-      resetTheme,
       setThemeType,
     }),
-    [theme, themeType, updateTheme, resetTheme],
+    [theme, themeType],
   );
 
   return <ThemeContext.Provider value={preferences}>{children}</ThemeContext.Provider>;
